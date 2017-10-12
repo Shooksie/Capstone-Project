@@ -1,0 +1,6 @@
+{
+    "name": "python",
+    "type": "imperative-OOP",
+    "varmethod": ["="],
+    "conditionals": ["if","else","else if", "switch","while","for"]
+}
