@@ -1,0 +1,18 @@
+.user_image img {
+    height:50px;
+    width: 50px;
+    float:left;
+}
+
+.panel:hover{
+    background: red;
+}
+
+.user_image {
+    height:50px;
+}
+
+.username {
+    height:50px;
+    color: black;
+}

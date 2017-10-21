@@ -1,0 +1,11 @@
+{
+  "name": "login",
+  "version": "1.0.0",
+  "description": "",
+  "main": "login.js",
+  "scripts": {
+    "test": "echo \"Error: not test specified\" && exit 1"
+  },
+  "author": "jarrm5",
+  "license": "ISC"
+}
