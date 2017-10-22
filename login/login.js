@@ -5,7 +5,7 @@ let win = null
 
 function boot(){
     win = new BrowserWindow({
-      width: 1000,
+      width: 500,
       height: 1000,
       frame: false
     })

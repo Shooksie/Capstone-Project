@@ -1,18 +1,29 @@
+.panel{
+    height: 50px;
+}
+.user_image{
+    height:100%;
+    width:15%;
+    float:left;
+    background-color: #4D4948;
+}
+
 .user_image img {
     height:50px;
     width: 50px;
-    float:left;
-}
-
-.panel:hover{
-    background: red;
-}
-
-.user_image {
-    height:50px;
 }
 
 .username {
-    height:50px;
-    color: black;
+  font-family: Impact;
+    background-color: #4D4948;
+    height:100%;
+    color: white;
+    width:85%;
+    float: right;
+    text-align: left;
+}
+
+.username:hover{
+    color: green;
+    font-style:italic;
 }
