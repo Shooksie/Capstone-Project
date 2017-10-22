@@ -1,4 +1,4 @@
-//const {remote} = require('electron')
+const {remote} = require('electron')
 document.getElementById('close').addEventListener('click',closeWindow);
 document.getElementById('maximize').addEventListener('click',maximizeWindow);
 document.getElementById('minimize').addEventListener('click',minimizeWindow);
