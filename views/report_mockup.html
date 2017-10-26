@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Code Plagiarism Detector</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/report.css">
+    </head>
+    <body>
+        <div class="report-container">
+            <form action="index.html" style="display: inline-block;">
+                <input type="submit" value="Back to Home" action ="index.html"/>
+            </form>
+            <h2 style="display: inline-block; margin-left: 50px;">Percentage Match: X%</h2><br>
+            <div id="report-container-left">
+                <p>
+                <span style="color: rgb(255,153,51);">
+                    private void extract(String inFile, String outFile){<br>
+                        JSONParser parser = new JSONParser();<br>
+                        try {<br>
+                            File file = new File(inFile);
+                            BufferedReader buffReader = new BufferedReader(new FileReader(file));
+                            String line;<br>
+                            while ((line = buffReader.readLine()) != null) {<br>
+                                JSONObject jsonObject = (JSONObject) parser.parse(line);
+                                JSONArray hashtags = (JSONArray) jsonObject.get("hashtagEntities");<br>
+                                if(!hashtags.isEmpty()) {<br>
+                                    for (int i = 0; i < hashtags.size(); i++) {<br>
+                                        JSONObject tag = (JSONObject) hashtags.get(i);
+                                        store(outFile, tag.get("text").toString());
+                                    }
+                                }
+                            }
+                        } catch (Exception e){
+                              e.printStackTrace();
+                        }
+                    }
+                </span>
+                <span style="color: rgb(0,112,192);">
+                    private void store(String outFile, String hashtag){<br>
+                        File file = new File(outFile);
+                        BufferedWriter buffWriter;<br>
+                        try  {<br>
+                            FileWriter fileWriter = new FileWriter(file.getAbsoluteFile(), true);<br>
+                            buffWriter = new BufferedWriter(fileWriter);
+                            buffWriter.write(hashtag + "\n");<br>
+                            buffWriter.close();
+                            fileWriter.close();
+                        } catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                </span>
+                </p>
+            </div>
+
+            <div id="report-container-right">
+                <p>
+                <span style="color: rgb(255,153,51);">
+                    private void extract_tweet(String in, String out){<br>
+                        JSONParser p = new JSONParser();<br>
+                        try {<br>
+                            File f = new File(in);
+                            BufferedReader br = new BufferedReader(new FileReader(f));
+                            String ln;<br>
+                            while ((ln = br.readLine()) != null) {<br>
+                                JSONObject jsonObj = (JSONObject) p.parse(ln);
+                                JSONArray hash = (JSONArray) jsonObj.get("hashtagEntities");<br>
+                                if(!hash.isEmpty()) {<br>
+                                    for (int j = 0; j < hash.size(); j++) {<br>
+                                        JSONObject tag = (JSONObject) hash.get(j);
+                                        store(out, tag.get("text").toString());
+                                    }
+                                }
+                            }
+                        } catch (Exception ex){
+                              ex.printStackTrace();
+                        }
+                    }
+                </span>
+                <span>
+                    private boolean store(String out, String str, int num){<br><span style="color: rgb(0,112,192)">
+                        File f = new File(out);
+                        BufferedWriter buff;<br>
+                        try  {<br>
+                            FileWriter fw = new FileWriter(f.getAbsoluteFile(), true);<br>
+                            buff = new BufferedWriter(fw);
+                            buff.write(str + "\n");<br></span>
+                            num++;
+                            System.out.println("unnecessary text");</br><span style="color: rgb(0,112,192)">
+                            buff.close();
+                            fw.close();
+                        } catch (Exception e){</span>
+                            <span style="color: rgb(0,0,0)">System.out.println("Error");</span>
+                        }
+                    }
+                </span>
+                </p>
+            </div>
+        </div>
+    </body>
+</html>

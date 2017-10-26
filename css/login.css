@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  text-align: center;
+  color: black;
+  font-size: 2rem;
+  font-family: calibri;
+  color: white;
+}
+
+header {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  background: #353535;
+  align-self: stretch;
+  -webkit-app-region: drag;
+}
+
+#frame_actions {
+  display: flex;
+  /*height: 100vh;*/
+  flex-direction: column;
+  background: black;
+  align-items: center;
+}
+
+#text{
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.option {
+  color: white;
+  padding: 10px 25px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+}
+
+.option 3rd-child {
+  font-size: 5rem;
+}
+
+.option:hover {
+  background: red;
+}
+
+.panel{
+    height: 50px;
+}
+.user_image{
+    height:100%;
+    width:15%;
+    float:left;
+    background-color: #4D4948;
+}
+
+.user_image img {
+    height:50px;
+    width: 50px;
+}
+
+.username {
+  font-family: Impact;
+    background-color: #4D4948;
+    height:100%;
+    color: white;
+    width:85%;
+    float: right;
+    text-align: left;
+}
+
+.username:hover{
+    color: green;
+    font-style:italic;
+}
