@@ -1,82 +1,52 @@
-* {
-  margin: 0;
-  padding: 0;
+html{
+    height: 100%;
 }
 
-div {
-  text-align: center;
-  color: black;
-  font-size: 2rem;
-  font-family: calibri;
-  color: white;
-}
-
-header {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  background: #353535;
-  align-self: stretch;
-  -webkit-app-region: drag;
-}
-
-#frame_actions {
-  display: flex;
-  /*height: 100vh;*/
-  flex-direction: column;
-  background: black;
-  align-items: center;
-}
-
-#text{
-  flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-}
-
-.option {
-  color: white;
-  padding: 10px 25px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  -webkit-app-region: no-drag;
-}
-
-.option 3rd-child {
-  font-size: 5rem;
-}
-
-.option:hover {
-  background: red;
-}
-
-.panel{
-    height: 50px;
-}
-.user_image{
+body{
     height:100%;
-    width:15%;
-    float:left;
-    background-color: #4D4948;
+    /*background-color: #F4F1F0;*/
+    background: -webkit-linear-gradient(top, rgba(181,189,200,1) 0%,rgba(130,140,149,1) 36%,rgba(40,52,59,1) 100%);
+}
+
+.user_image {
+
+    background-color:white;
 }
 
 .user_image img {
+    vertical-align: middle;
     height:50px;
     width: 50px;
 }
 
-.username {
-  font-family: Impact;
+#user_panels {
+    height:90%;
+    display:flex;
+    /*align the panels vertically*/
+    flex-direction:column;
+    /*align vertically and evenly space the margins between panels*/
+    justify-content: space-around;
+    /*align panels horizontally*/
+    align-items: center;
+}
+
+.panel {
+    width: 60%;
+    border-radius: 50px;
+    /*when applying border radius, inner divs spill outside the border*/
+    overflow: hidden;
+    box-shadow: 10px 10px 5px #28211F
+}
+
+.username{
+
+    font-family: Impact;
     background-color: #4D4948;
-    height:100%;
     color: white;
-    width:85%;
-    float: right;
-    text-align: left;
 }
 
 .username:hover{
-    color: green;
+    cursor: pointer;
+    color: #DA4B27;
     font-style:italic;
 }
