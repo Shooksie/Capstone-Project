@@ -1,6 +1,12 @@
-var remote = require('remote');
+const {remote} = require('electron')
+
+//var remote = require('remote');
 const dialog = require('electron').remote;
 var fs = require('fs');
+
+document.getElementById('close').addEventListener('click',closeWindow);
+document.getElementById('maximize').addEventListener('click',maximizeWindow);
+document.getElementById('minimize').addEventListener('click',minimizeWindow);
 
 document.getElementById('select-file').addEventListener('click',function(){
     dialog.showOpenDialog(function (fileNames) {
@@ -35,7 +41,8 @@ document.getElementById('delete-file').addEventListener('click',function(){
     }
 },false);
 
-document.getElementById('create-new-file').addEventListener('click',function(){
+//Uncaught TypeError: Cannot read property 'addEventListener' of null at upload_files.js:44
+/*document.getElementById('create-new-file').addEventListener('click',function(){
     var content = document.getElementById("content-editor").value;
 
     dialog.showSaveDialog(function (fileName) {
@@ -52,7 +59,7 @@ document.getElementById('create-new-file').addEventListener('click',function(){
             alert("The file has been succesfully saved");
         });
     });
-},false);
+},false);*/
 
 function readFile(filepath) {
     fs.readFile(filepath, 'utf-8', function (err, data) {
@@ -92,4 +99,17 @@ function saveChanges(filepath,content){
 
         alert("The file has been succesfully saved");
     });
+}
+
+function closeWindow(){
+    var window = remote.getCurrentWindow();
+    window.close();
+}
+function minimizeWindow(){
+    var window = remote.getCurrentWindow();
+    window.minimize();
+}
+function maximizeWindow(){
+    var window = remote.getCurrentWindow();
+    window.isMaximized() ? window.unmaximize() : window.maximize()
 }
