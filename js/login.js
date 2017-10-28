@@ -59,7 +59,6 @@ firebaseRef.on("child_added", snap => {
 function Signin(username) {
     firebase.auth().signInWithEmailAndPassword(username,"password").then(function(){
         document.location.href = "index.html";
-        alert("Signed in as: " + username);
     }).catch(function(error){
         if(error!=null){
             console.log(error.message);
