@@ -1,14 +1,35 @@
-const {remote} = require('electron')
+const {remote} = require('electron');
+window.$ = window.jQuery = require("jquery");
 
-document.getElementById('close').addEventListener('click',closeWindow);
-document.getElementById('maximize').addEventListener('click',maximizeWindow);
-document.getElementById('minimize').addEventListener('click',minimizeWindow);
-var panels = document.getElementsByClassName('panel');
-for(var i = 0;i < panels.length; i++){
-    panels[i].addEventListener('click',authenticate);
-}
+$('#close').click(function(){
+    var window = remote.getCurrentWindow();
+    window.close();
+});
+
+$('#maximize').click(function(){
+    var window = remote.getCurrentWindow();
+    if(window.isMaximized()){
+      $('#maximize').html('&#x1f5d6;');
+        window.unmaximize();
+    }
+    else{
+        $('#maximize').html('&#x1F5D7;');
+        window.maximize();
+    }
+});
+
+$('#minimize').click(function(){
+    var window = remote.getCurrentWindow();
+    window.minimize();
+});
+
+$('#user_panels').children().each(function(){
+    $(this).click(function(){
+        Signin($(this).children('.username').text() + "@cs451project.com");
+    });
+});
+
 // Initialize Firebase
-
 var config = {
     apiKey: "AIzaSyDID2ccJgGMUJB6ewxW1EwIE5zKUuw7Mgc",
     authDomain: "cs451-group6.firebaseapp.com",
@@ -19,16 +40,19 @@ var config = {
 };
 firebase.initializeApp(config);
 
+//Import user data from firebase
 var firebaseRef = firebase.database().ref("Users");
 var i = 0;
+//Event to display firebase data in html
+//This event runs after the DOM has loaded
 firebaseRef.on("child_added", snap => {
 
     var image = snap.child("image").val();
     var username = snap.child("username").val();
     var trimmedName = username.substring(0,username.indexOf('@'));
 
-    panels[i].children[0].children[0].src = "../images/" + image;
-    panels[i].children[1].innerText = trimmedName;
+    $('#user_panels').children().eq(i).find('img').attr('src','../images/' + image);
+    $('#user_panels').children().eq(i).find('.username').text(trimmedName);
     i++;
 });
 
@@ -42,24 +66,4 @@ function Signin(username) {
             return;
         }
     });
-}
-
-function closeWindow(){
-    var window = remote.getCurrentWindow();
-    window.close();
-}
-
-function minimizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.minimize();
-}
-
-function maximizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.isMaximized() ? window.unmaximize() : window.maximize()
-}
-
-function authenticate() {
-    var username = this.children[1].innerText + "@cs451project.com";
-    Signin(username);
 }
