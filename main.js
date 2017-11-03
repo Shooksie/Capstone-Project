@@ -7,13 +7,13 @@ var firebase = require('firebase');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let loginWindow
-
+let indexWindow
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 
 app.on('ready', function(){
-    createWindow();
+    createLogin();
 
     //container to store firebase data
     var data = {};
@@ -44,6 +44,45 @@ app.on('ready', function(){
     });
 });
 
+//Catch username for authentication
+ipcMain.on('user_signin',function(e, username){
+    firebase.auth().signInWithEmailAndPassword(username,"password").then(function(){
+        createIndex();
+        loginWindow.close();
+    }).catch(function(error){
+        if(error!=null){
+            console.log(error.message);
+        }
+    });
+});
+
+function createLogin () {  
+    loginWindow = new BrowserWindow({width: 800, height: 600, frame:false})
+    loginWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'views/login.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+    loginWindow.on('closed', function () {
+        loginWindow = null
+    });
+}
+
+function createIndex () {  
+    indexWindow = new BrowserWindow({width: 800, height: 600, frame:false})
+    indexWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'views/index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+    indexWindow.on('closed', function () {
+        indexWindow = null
+    });
+}
+
+
+
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
@@ -57,35 +96,7 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (loginWindow === null) {
-    createWindow()
+    createLogin()
   }
 });
-
-function createWindow () {  
-    loginWindow = new BrowserWindow({width: 800, height: 600, frame:false})
-    loginWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'views/login.html'),
-    protocol: 'file:',
-    slashes: true
-}));
-
-  // Emitted when the window is closed.
-  loginWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    loginWindow = null
-  });
-}
-
-function Signin(username) {
-  firebase.auth().signInWithEmailAndPassword(username,"password").then(function(){
-      document.location.href = "index.html";
-  }).catch(function(error){
-      if(error!=null){
-          console.log(error.message);
-          return;
-      }
-  });
-}
 
