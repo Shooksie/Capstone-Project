@@ -14,6 +14,12 @@ body{
     background-color:white;
 }
 
+.user_image, .username{
+    text-align: center;
+    font-size: 2rem;
+    font-family: calibri;
+}
+
 .user_image img {
     vertical-align: middle;
     height:50px;

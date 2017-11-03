@@ -1,6 +1,8 @@
 const {remote, ipcRenderer} = require('electron');
 window.$ = window.jQuery = require("jquery");
 
+$.getScript('../js/frame.js');
+
 ipcRenderer.on('load_names', function(event,data){
     //Take the firebase data and generate login panels dynamicaly
     for (var u in data) {
@@ -19,24 +21,3 @@ ipcRenderer.on('load_names', function(event,data){
     });
 });
 
-$('#close').click(function(){
-    var window = remote.getCurrentWindow();
-    window.close();
-});
-
-$('#maximize').click(function(){
-    var window = remote.getCurrentWindow();
-    if(window.isMaximized()){
-      $('#maximize').html('&#x1f5d6;');
-        window.unmaximize();
-    }
-    else{
-        $('#maximize').html('&#x1F5D7;');
-        window.maximize();
-    }
-});
-
-$('#minimize').click(function(){
-    var window = remote.getCurrentWindow();
-    window.minimize();
-});
