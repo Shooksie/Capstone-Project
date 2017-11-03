@@ -1,15 +1,16 @@
 html{
+    /*set html to span the entire Browser Window*/
     height: 100%;
 }
 
 body{
-    height:100%;
+    /*body should span entire html container*/
+    height:inherit;
     /*background-color: #F4F1F0;*/
     background: -webkit-linear-gradient(top, rgba(181,189,200,1) 0%,rgba(130,140,149,1) 36%,rgba(40,52,59,1) 100%);
 }
 
 .user_image {
-
     background-color:white;
 }
 
@@ -20,13 +21,15 @@ body{
 }
 
 #user_panels {
+    /*frame_actions occupies 10% of the body; container for the panels gets the rest of the space*/ 
     height:90%;
+    /*put the child panels in flex mode*/
     display:flex;
     /*align the panels vertically*/
     flex-direction:column;
-    /*align vertically and evenly space the margins between panels*/
+    /*center vertically and evenly space the margins between panels*/
     justify-content: space-around;
-    /*align panels horizontally*/
+    /*center panels horizontally*/
     align-items: center;
 }
 
@@ -39,7 +42,6 @@ body{
 }
 
 .username{
-
     font-family: Impact;
     background-color: #4D4948;
     color: white;

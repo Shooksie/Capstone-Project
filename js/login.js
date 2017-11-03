@@ -1,5 +1,15 @@
-const {remote} = require('electron');
+const {remote, ipcRenderer} = require('electron');
 window.$ = window.jQuery = require("jquery");
+
+ipcRenderer.on('load_names', function(event,data){
+    for (var u in data) {
+        item = data[u];
+        $('#user_panels').append($('<div/>').addClass('panel')
+            .append($('<div/>').addClass('user_image')
+                .append($('<img/>').attr('src','../images/' + data[u]['image'])))
+            .append($('<div/>').addClass('username').text(u)));
+    }
+});
 
 $('#close').click(function(){
     var window = remote.getCurrentWindow();
@@ -29,7 +39,7 @@ $('#user_panels').children().each(function(){
     });
 });
 
-// Initialize Firebase
+/*// Initialize Firebase
 var config = {
     apiKey: "AIzaSyDID2ccJgGMUJB6ewxW1EwIE5zKUuw7Mgc",
     authDomain: "cs451-group6.firebaseapp.com",
@@ -54,15 +64,6 @@ firebaseRef.on("child_added", snap => {
     $('#user_panels').children().eq(i).find('img').attr('src','../images/' + image);
     $('#user_panels').children().eq(i).find('.username').text(trimmedName);
     i++;
-});
+});*/
 
-function Signin(username) {
-    firebase.auth().signInWithEmailAndPassword(username,"password").then(function(){
-        document.location.href = "index.html";
-    }).catch(function(error){
-        if(error!=null){
-            console.log(error.message);
-            return;
-        }
-    });
-}
+
