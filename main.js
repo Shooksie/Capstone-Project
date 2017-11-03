@@ -17,6 +17,7 @@ app.on('ready', function(){
 
     //container to store firebase data
     var data = {};
+    var currentUser = null;
 
     // Initialize Firebase
     var config = {
@@ -42,19 +43,30 @@ app.on('ready', function(){
     loginWindow.webContents.on('did-finish-load',function(){
         loginWindow.webContents.send('load_names', data);
     });
-});
 
-//Catch username for authentication
-ipcMain.on('user_signin',function(e, username){
-    firebase.auth().signInWithEmailAndPassword(username,"password").then(function(){
-        createIndex();
-        loginWindow.close();
-    }).catch(function(error){
-        if(error!=null){
-            console.log(error.message);
-        }
+    //Catch username for authentication
+    ipcMain.on('user_signin',function(e, username){
+        firebase.auth().signInWithEmailAndPassword(username + "@cs451project.com","password").then(function(){
+            createIndex();
+            loginWindow.close();
+            //send the user's info to index.js
+            indexWindow.webContents.on('did-finish-load',function(){
+                console.log(username);
+                indexWindow.webContents.send('send_current_user', data[username]);
+            });
+        }).catch(function(error){
+            if(error!=null){
+                console.log(error.message);
+            }
+        });
     });
 });
+
+
+
+
+
+
 
 function createLogin () {  
     loginWindow = new BrowserWindow({width: 800, height: 600, frame:false})

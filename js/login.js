@@ -17,7 +17,7 @@ ipcRenderer.on('load_names', function(event,data){
     $('.panel').click(function(e){
         e.preventDefault();
         const usernameClicked = $(this).children('.username').text();
-        ipcRenderer.send('user_signin', usernameClicked + "@cs451project.com");
+        ipcRenderer.send('user_signin', usernameClicked);
     });
 });
 
