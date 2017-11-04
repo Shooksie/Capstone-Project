@@ -98,19 +98,19 @@ function readFile(filepath, num="1") {
           if ( tocompare.length > 0 && num === '2' ) {
             if( values[i] === tocompare[i] ) {
               toAppend.innerHTML +=
-                ("<div style='background-color: lightgreen; display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+                ("<div class='line-row-same'><div class='side-number'><p>"
                 + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
                 + values[i] +"</p></div></div>")
             } else {
                 toAppend.innerHTML +=
-                  ("<div style='background-color: #ff6666; display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+                  ("<div class='line-row-diff'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
                   + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
                   + values[i] +"</p></div></div>")
               }
             }
           else {
             toAppend.innerHTML +=
-              ("<div style='display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+              ("<div class='line-row'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
               + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
               + values[i] +"</p></div></div>")
           }

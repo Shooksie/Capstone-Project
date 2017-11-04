@@ -28,6 +28,39 @@ header {
   align-items: center;
 }
 
+.line-row {
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  flex-direction: row;
+  white-space:pre;
+}
+
+.line-row-same {
+  background-color: lightgreen;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  flex-direction: row;
+  white-space:pre;
+}
+
+.line-row-diff {
+  background-color: #ff6666;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+  flex-direction: row;
+  white-space:pre;
+}
+
+.side-number {
+  border-right: 1px solid black;
+  width: 50px;'
+}
+
+.side-number p {
+  color: black;
+  font-size: 17px;
+}
+
 .option {
   color: white;
   padding: 10px 25px;
