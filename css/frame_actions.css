@@ -28,6 +28,11 @@ header {
   align-items: center;
 }
 
+.text-styling {
+  color: black;
+  font-size: 17px;
+}
+
 .line-row {
   border-bottom: 1px solid lightgrey;
   display: flex;

@@ -14,23 +14,22 @@ document.getElementById('minimize').addEventListener('click',minimizeWindow);
 document.getElementById('select-file1').addEventListener('click',function(){
 
   remote.dialog.showOpenDialog(function (fileNames) {
-        console.log('click');
-        dialogFunction(fileNames)
-  });
+        dialogFunction(fileNames);
+    });
 }, false);
 
-document.getElementById('select-file2').addEventListener('click',function(){
+document.getElementById('select-file2').addEventListener('click', function(){
     remote.dialog.showOpenDialog(function (fileNames) {
         if(fileNames === undefined){
             console.log("No file selected");
-        }else{
-          var toAppend = document.getElementById("text-content-2")
-          toAppend.innerHTML = ""
+        } else{
+            var toAppend = document.getElementById("text-content-2");
+            toAppend.innerHTML = "";
             readFile(fileNames[0], "2");
         }
     });
 },false);
-document.getElementById('save-changes').addEventListener('click',function(){
+document.getElementById('save-changes').addEventListener('click', function(){
     var actualFilePath = document.getElementById("actual-file").value;
 
     if(actualFilePath){
@@ -40,10 +39,10 @@ document.getElementById('save-changes').addEventListener('click',function(){
     }
 },false);
 
-document.getElementById('delete-file').addEventListener('click',function(){
+document.getElementById('delete-file').addEventListener('click', function(){
     var actualFilePath = document.getElementById("actual-file").value;
 
-    if(actualFilePath){
+    if(actualFilePath) {
         deleteFile(actualFilePath);
         actualFilePath.value = "";
         document.getElementById("content-editor").value = "";
@@ -76,43 +75,50 @@ function dialogFunction(fileNames) {
   if(fileNames === undefined){
       console.log("No file selected");
   }else{
-      console.log(fileNames[0].toString());
       readFile(fileNames[0]);
   }
 }
 
 function readFile(filepath, num="1") {
     fs.readFile(filepath, 'utf-8', function (err, data) {
-        console.log(filepath);
         if(err){
             alert("An error ocurred reading the file :" + err.message);
             return;
         }
         values = data.split('\n')
-        console.log(values);
         var toAppend = document.getElementById("text-content-"+ num)
         if( num === '1' ) {
           tocompare = values;
         }
         for ( var i = 0; i < values.length; i++ ) {
           if ( tocompare.length > 0 && num === '2' ) {
-            if( values[i] === tocompare[i] ) {
+            if ( values[i] === tocompare[i] ) {
               toAppend.innerHTML +=
-                ("<div class='line-row-same'><div class='side-number'><p>"
-                + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
-                + values[i] +"</p></div></div>")
+              ("<div class='line-row-same'>" +
+                "<div class='side-number'>" +
+                  "<p>"+ i + "</p>" +
+                "</div>" +
+                "<div>"+
+                  "<p class='text-styling'>"+ values[i] +"</p>" +
+                "</div></div>")
             } else {
                 toAppend.innerHTML +=
-                  ("<div class='line-row-diff'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
-                  + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
-                  + values[i] +"</p></div></div>")
+                ("<div class='line-row-diff'>" +
+                  "<div class='side-number'>" +
+                    "<p>"+ i + "</p>" +
+                  "</div>" +
+                  "<div>" +
+                    "<p class='text-styling'>"+ values[i] +"</p>" +
+                  "</div></div>")
               }
-            }
-          else {
-            toAppend.innerHTML +=
-              ("<div class='line-row'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
-              + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
-              + values[i] +"</p></div></div>")
+            } else {
+              toAppend.innerHTML += ("<div class='line-row'>" +
+                  "<div class='side-number'>" +
+                    "<p>"+ i + "</p>" +
+                  "</div>" +
+                  "<div>"+
+                    "<p class='text-styling'>"+ values[i] +"</p>" +
+                  "</div></div>");
           }
         }
         //document.getElementById("content-editor"+ num).value = data;
@@ -128,7 +134,6 @@ function deleteFile(filepath){
             fs.unlink(filepath,function(err){
                 if(err){
                     alert("An error ocurred updating the file"+ err.message);
-                    console.log(err);
                     return;
                 }
             });
@@ -139,11 +144,9 @@ function deleteFile(filepath){
 }
 
 function saveChanges(filepath,content){
-  console.log(content);
     fs.writeFile(filepath, content, function (err) {
         if(err){
             alert("An error ocurred updating the file"+ err.message);
-            console.log(err);
             return;
         }
 
