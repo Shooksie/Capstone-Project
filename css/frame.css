@@ -9,7 +9,7 @@
   font-size: 2rem;
   font-family: calibri;
   color: white;
-}*/
+}
 
 header {
   display: flex;
@@ -18,19 +18,25 @@ header {
   background: #17110F;
   align-self: stretch;
   -webkit-app-region: drag;
-}
+}*/
 
 #frame {
   height:10%;
   display: flex;
   flex-direction: row-reverse;
+  justify-content: space-between; 
   background: black;
-  align-items: center;
+  /*align-items: center;*/
+}
+
+.options {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .option {
   color: white;
-  padding: 10px 25px;
+  padding: 12.5px 25px;
   font-size: 1.5rem;
   cursor: pointer;
   -webkit-app-region: no-drag;
@@ -42,4 +48,18 @@ header {
 
 .option:hover {
   background: #DA4B27;
+}
+
+#user_box {
+  flex-direction: row;
+  padding: 5px 10px;
+}
+
+#user_box:hover {
+  cursor: pointer;
+}
+
+.logged_user_image img {
+  height:50px;
+  width: 50px;
 }
