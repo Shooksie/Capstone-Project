@@ -1,5 +1,6 @@
 window.$ = window.jQuery = require("jquery");
 
+
 //Load the icons for closing,maximizing and minimizing the window
 const icons = {'close':'&#x2716;','maximize':'&#x1f5d6;','minimize':'&#x1f5d5;'};
 for (var i in icons){
@@ -35,6 +36,7 @@ $('#minimize').click(function(){
     window.minimize();
 });
 
+//Sending signal to main.js to signout of firebase
 $('#user_box').click(function(e){
     e.preventDefault();
     ipcRenderer.send('user_signout');

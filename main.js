@@ -4,71 +4,78 @@ const path = require('path');
 const url = require('url');
 var firebase = require('firebase');
 
-let win;
+let loginWin;
+let indexWin;
 
 //container to store firebase data
 var data = {};
 
 app.on('ready', function(){
-    win = new BrowserWindow({width: 800, height: 600, frame:false});
+
+    var currentUser = null;
+
     initFirebase(); 
     initLogin();
-});
+    initIndex();
 
-//Catch username for authentication 
-ipcMain.on('user_signin',function(e, username){
-    firebase.auth().signInWithEmailAndPassword(username + "@cs451project.com","password").then(function(){
-        //init the index window and send the user's info to index.js
-        initIndex(username);
-    }).catch(function(error){
-        if(error!=null){
-            console.log(error.message);
-        }
+    //sending firebase usernames to login.js
+    loginWin.webContents.on('did-finish-load',function(){
+        loginWin.webContents.send('load_names', data);
+    });
+    loginWin.on('closed', function () {
+        app.quit();
+    });
+
+    
+    indexWin.on('closed', function () {
+        app.quit();
+    });
+    //Recieving username from login.js to authenticate to firebase
+    ipcMain.on('user_signin',function(e, username){
+        currentUser = username;
+        firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
+            loginWin.hide();
+            indexWin.webContents.send('send_current_user', data[currentUser]);
+            indexWin.setTitle('Dashboard - ' + currentUser);
+            indexWin.show();
+        }).catch(function(error){
+            if(error!=null){
+                console.log(error.message);
+            }
+        });
+    });
+
+    //Recieving signal from index.js to sign out from firebase
+    ipcMain.on('user_signout',function(){
+        firebase.auth().signOut().then(function() {
+            currentUser = null;       
+            indexWin.hide();
+            loginWin.show();
+        }).catch(function(error) {
+            console.log('Sign out unsuccesful');
+        });
     });
 });
-//Logged in user signs out from firebase
-ipcMain.on('user_signout',function(){
-    firebase.auth().signOut().then(function() {       
-        initLogin();
-    }).catch(function(error) {
-        console.log('Sign out unsuccesful');
-    });
-});
-
 
 function initLogin() {
-
-    win.setTitle('Login');
-    win.loadURL(url.format({
+    loginWin = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
+    loginWin.setTitle('Login');
+    loginWin.loadURL(url.format({
         pathname: path.join(__dirname, 'views/login.html'),
         protocol: 'file:',
         slashes: true
-    }));
-    //send firebase usernames to login page
-    win.webContents.on('did-finish-load',function(){
-        win.webContents.send('load_names', data);
-    });
-    win.on('closed', function () {
-        win = null
-    });
+    }));   
 }
 
-function initIndex(username) {
-    win.setTitle('Dashboard - ' + username);
-    win.loadURL(url.format({
+function initIndex() {
+    indexWin = new BrowserWindow({width: 800, height: 600, show: false, frame : false})
+    indexWin.loadURL(url.format({
         pathname: path.join(__dirname, 'views/index.html'),
         protocol: 'file:',
         slashes: true
     }));
-
-    //sending username to index.js
-    win.webContents.on('did-finish-load',function(){
-        win.webContents.send('send_current_user', data[username]);
-    });
-    win.on('closed', function () {
-        win = null
-    });
 }
+
 
 // Initialize Firebase
 function initFirebase(){
@@ -98,15 +105,15 @@ function initFirebase(){
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  //if (process.platform !== 'darwin') {
     app.quit()
-  }
+  //}
 });
 
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (win === null) {
+  if (loginWin === null) {
     initLogin()
   }
 });

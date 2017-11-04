@@ -1,10 +1,10 @@
-const {remote, ipcRenderer} = require('electron');
+const {ipcRenderer,remote} = require('electron');
 window.$ = window.jQuery = require("jquery");
 
 $.getScript('../js/frame.js');
 
+//Recieving firebase data from main.js
 ipcRenderer.on('load_names', function(event,data){
-
     //Take the firebase data and generate login panels dynamicaly
     if($('#user_panels').children().length == 0) {
         for (var u in data) {
@@ -14,11 +14,12 @@ ipcRenderer.on('load_names', function(event,data){
                 .append($('<div/>').addClass('username').text(u)));
         }
     }
-    
-    //When a user is clicked, send it to main for authentication
+
+    //Sending username to main.js for authentication
     $('.panel').click(function(){
-        const usernameClicked = $(this).children('.username').text();
+        var usernameClicked = $(this).children('.username').text();
         ipcRenderer.send('user_signin', usernameClicked);
     });
 });
+
 
