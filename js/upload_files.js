@@ -7,69 +7,6 @@ var remote = require('electron').remote;
 var fs = require('fs');
 
 var tocompare = [];
-document.getElementById('close').addEventListener('click',closeWindow);
-document.getElementById('maximize').addEventListener('click',maximizeWindow);
-document.getElementById('minimize').addEventListener('click',minimizeWindow);
-
-document.getElementById('select-file1').addEventListener('click',function(){
-
-  remote.dialog.showOpenDialog(function (fileNames) {
-        dialogFunction(fileNames);
-    });
-}, false);
-
-document.getElementById('select-file2').addEventListener('click', function(){
-    remote.dialog.showOpenDialog(function (fileNames) {
-        if(fileNames === undefined){
-            console.log("No file selected");
-        } else{
-            var toAppend = document.getElementById("text-content-2");
-            toAppend.innerHTML = "";
-            readFile(fileNames[0], "2");
-        }
-    });
-},false);
-document.getElementById('save-changes').addEventListener('click', function(){
-    var actualFilePath = document.getElementById("actual-file").value;
-
-    if(actualFilePath){
-        saveChanges(actualFilePath,document.getElementById('content-editor').value);
-    }else{
-        alert("Please select a file first");
-    }
-},false);
-
-document.getElementById('delete-file').addEventListener('click', function(){
-    var actualFilePath = document.getElementById("actual-file").value;
-
-    if(actualFilePath) {
-        deleteFile(actualFilePath);
-        actualFilePath.value = "";
-        document.getElementById("content-editor").value = "";
-    }else{
-        alert("Please select a file first");
-    }
-},false);
-
-//Uncaught TypeError: Cannot read property 'addEventListener' of null at upload_files.js:44
-/*document.getElementById('create-new-file').addEventListener('click',function(){
-    var content = document.getElementById("content-editor").value;
-
-    dialog.showSaveDialog(function (fileName) {
-        if (fileName === undefined){
-            console.log("You didn't save the file");
-            return;
-        }
-
-        fs.writeFile(fileName, content, function (err) {
-            if(err){
-                alert("An error ocurred creating the file "+ err.message)
-            }
-
-            alert("The file has been succesfully saved");
-        });
-    });
-},false);*/
 
 function dialogFunction(fileNames) {
   if(fileNames === undefined){
@@ -166,3 +103,70 @@ function maximizeWindow(){
     var window = remote.getCurrentWindow();
     window.isMaximized() ? window.unmaximize() : window.maximize()
 }
+
+document.getElementById('close').addEventListener('click',closeWindow);
+
+document.getElementById('maximize').addEventListener('click',maximizeWindow);
+
+document.getElementById('minimize').addEventListener('click',minimizeWindow);
+
+document.getElementById('select-file1').addEventListener('click',function(){
+
+  remote.dialog.showOpenDialog(function (fileNames) {
+        dialogFunction(fileNames);
+    });
+}, false);
+
+document.getElementById('select-file2').addEventListener('click', function(){
+    remote.dialog.showOpenDialog(function (fileNames) {
+        if(fileNames === undefined){
+            console.log("No file selected");
+        } else{
+            var toAppend = document.getElementById("text-content-2");
+            toAppend.innerHTML = "";
+            readFile(fileNames[0], "2");
+        }
+    });
+},false);
+
+document.getElementById('save-changes').addEventListener('click', function(){
+    var actualFilePath = document.getElementById("actual-file").value;
+
+    if(actualFilePath){
+        saveChanges(actualFilePath,document.getElementById('content-editor').value);
+    }else{
+        alert("Please select a file first");
+    }
+},false);
+
+document.getElementById('delete-file').addEventListener('click', function(){
+    var actualFilePath = document.getElementById("actual-file").value;
+
+    if(actualFilePath) {
+        deleteFile(actualFilePath);
+        actualFilePath.value = "";
+        document.getElementById("content-editor").value = "";
+    }else{
+        alert("Please select a file first");
+    }
+},false);
+
+//Uncaught TypeError: Cannot read property 'addEventListener' of null at upload_files.js:44
+/*document.getElementById('create-new-file').addEventListener('click',function(){
+    var content = document.getElementById("content-editor").value;
+
+    dialog.showSaveDialog(function (fileName) {
+        if (fileName === undefined){
+            console.log("You didn't save the file");
+            return;
+        }
+
+        fs.writeFile(fileName, content, function (err) {
+            if(err){
+                alert("An error ocurred creating the file "+ err.message)
+            }
+
+            alert("The file has been succesfully saved");
+        });
+    });
+},false);*/
