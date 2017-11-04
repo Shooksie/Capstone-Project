@@ -1,7 +1,9 @@
 //Module to control application life,Module to create native browser window.
-const {app,BrowserWindow} = require('electron');
-const path = require('path')
-const url = require('url')
+const { app,BrowserWindow } = require('electron');
+const path = require('path');
+const url = require('url');
+
+const { pyBridge } = require('./pymanager.js');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

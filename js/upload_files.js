@@ -1,24 +1,35 @@
-const {remote} = require('electron')
+//const {remote} = require('electron')
 
 //var remote = require('remote');
-const dialog = require('electron').remote;
+//const dialog = require('electron').remote;
+var electron = require('electron');
+var remote = require('electron').remote;
 var fs = require('fs');
 
+var tocompare = [];
 document.getElementById('close').addEventListener('click',closeWindow);
 document.getElementById('maximize').addEventListener('click',maximizeWindow);
 document.getElementById('minimize').addEventListener('click',minimizeWindow);
 
-document.getElementById('select-file').addEventListener('click',function(){
-    dialog.showOpenDialog(function (fileNames) {
+document.getElementById('select-file1').addEventListener('click',function(){
+
+  remote.dialog.showOpenDialog(function (fileNames) {
+        console.log('click');
+        dialogFunction(fileNames)
+  });
+}, false);
+
+document.getElementById('select-file2').addEventListener('click',function(){
+    remote.dialog.showOpenDialog(function (fileNames) {
         if(fileNames === undefined){
             console.log("No file selected");
         }else{
-            document.getElementById("actual-file").value = fileNames[0];
-            readFile(fileNames[0]);
+          var toAppend = document.getElementById("text-content-2")
+          toAppend.innerHTML = ""
+            readFile(fileNames[0], "2");
         }
     });
 },false);
-
 document.getElementById('save-changes').addEventListener('click',function(){
     var actualFilePath = document.getElementById("actual-file").value;
 
@@ -34,7 +45,7 @@ document.getElementById('delete-file').addEventListener('click',function(){
 
     if(actualFilePath){
         deleteFile(actualFilePath);
-        document.getElementById("actual-file").value = "";
+        actualFilePath.value = "";
         document.getElementById("content-editor").value = "";
     }else{
         alert("Please select a file first");
@@ -61,14 +72,52 @@ document.getElementById('delete-file').addEventListener('click',function(){
     });
 },false);*/
 
-function readFile(filepath) {
+function dialogFunction(fileNames) {
+  if(fileNames === undefined){
+      console.log("No file selected");
+  }else{
+      console.log(fileNames[0].toString());
+      readFile(fileNames[0]);
+  }
+}
+
+function readFile(filepath, num="1") {
     fs.readFile(filepath, 'utf-8', function (err, data) {
+        console.log(filepath);
         if(err){
             alert("An error ocurred reading the file :" + err.message);
             return;
         }
-
-        document.getElementById("content-editor").value = data;
+        values = data.split('\n')
+        console.log(values);
+        var toAppend = document.getElementById("text-content-"+ num)
+        if( num === '1' ) {
+          tocompare = values;
+        }
+        for ( var i = 0; i < values.length; i++ ) {
+          if ( tocompare.length > 0 && num === '2' ) {
+            if( values[i] === tocompare[i] ) {
+              toAppend.innerHTML +=
+                ("<div style='background-color: lightgreen; display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+                + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
+                + values[i] +"</p></div></div>")
+            } else {
+                toAppend.innerHTML +=
+                  ("<div style='background-color: #ff6666; display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+                  + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
+                  + values[i] +"</p></div></div>")
+              }
+            }
+          else {
+            toAppend.innerHTML +=
+              ("<div style='display: flex; flex-direction: row; white-space:pre; border-bottom: 1px solid lightgrey;'><div style='border-right: 1px solid black;width: 50px;'><p style='color: black; font-size: 17px;'>"
+              + i + "</p></div><div><p style='color: black; font-size: 17px;'>"
+              + values[i] +"</p></div></div>")
+          }
+        }
+        //document.getElementById("content-editor"+ num).value = data;
+        filename = filepath.split('/')
+        document.getElementById("file-name-"+ num).innerHTML = filename[filename.length - 1];
     });
 }
 
@@ -90,6 +139,7 @@ function deleteFile(filepath){
 }
 
 function saveChanges(filepath,content){
+  console.log(content);
     fs.writeFile(filepath, content, function (err) {
         if(err){
             alert("An error ocurred updating the file"+ err.message);
