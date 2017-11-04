@@ -4,33 +4,36 @@ const path = require('path');
 const url = require('url');
 var firebase = require('firebase');
 
-ipcMain.setMaxListeners(0);
-
 let win;
 
 //container to store firebase data
 var data = {};
-// Initialize Firebase
-function initFirebase(){
-    var config = {
-        apiKey: "AIzaSyDID2ccJgGMUJB6ewxW1EwIE5zKUuw7Mgc",
-        authDomain: "cs451-group6.firebaseapp.com",
-        databaseURL: "https://cs451-group6.firebaseio.com",
-        projectId: "cs451-group6",
-        storageBucket: "cs451-group6.appspot.com",
-        messagingSenderId: "631480008090"
-    };
-    firebase.initializeApp(config);
-      
-    var firebaseRef = firebase.database().ref("Users");
-      
-    firebaseRef.on("child_added", snap => {
-        var image = snap.child("image").val();
-        var username = snap.child("username").val();
-        var trimmedName = username.substring(0,username.indexOf('@'));
-        data[trimmedName] = {'image': image,'username':username};
+
+app.on('ready', function(){
+    win = new BrowserWindow({width: 800, height: 600, frame:false});
+    initFirebase(); 
+    initLogin();
+});
+
+//Catch username for authentication 
+ipcMain.on('user_signin',function(e, username){
+    firebase.auth().signInWithEmailAndPassword(username + "@cs451project.com","password").then(function(){
+        //init the index window and send the user's info to index.js
+        initIndex(username);
+    }).catch(function(error){
+        if(error!=null){
+            console.log(error.message);
+        }
     });
-}
+});
+//Logged in user signs out from firebase
+ipcMain.on('user_signout',function(){
+    firebase.auth().signOut().then(function() {       
+        initLogin();
+    }).catch(function(error) {
+        console.log('Sign out unsuccesful');
+    });
+});
 
 
 function initLogin() {
@@ -41,18 +44,6 @@ function initLogin() {
         protocol: 'file:',
         slashes: true
     }));
-    //Catch username for authentication
-    
-    ipcMain.on('user_signin',function(e, username){
-        firebase.auth().signInWithEmailAndPassword(username + "@cs451project.com","password").then(function(){
-            //init the index window and send the user's info to index.js
-            initIndex(username);
-        }).catch(function(error){
-            if(error!=null){
-                console.log(error.message);
-            }
-        });
-    });
     //send firebase usernames to login page
     win.webContents.on('did-finish-load',function(){
         win.webContents.send('load_names', data);
@@ -74,23 +65,32 @@ function initIndex(username) {
     win.webContents.on('did-finish-load',function(){
         win.webContents.send('send_current_user', data[username]);
     });
-    ipcMain.on('user_signout',function(){
-        firebase.auth().signOut().then(function() {       
-            initLogin();
-        }).catch(function(error) {
-            console.log('Sign out unsuccesful');
-        });
-    });
     win.on('closed', function () {
         win = null
     });
 }
 
-app.on('ready', function(){
-    win = new BrowserWindow({width: 800, height: 600, frame:false});
-    initFirebase(); 
-    initLogin();
-});
+// Initialize Firebase
+function initFirebase(){
+    var config = {
+        apiKey: "AIzaSyDID2ccJgGMUJB6ewxW1EwIE5zKUuw7Mgc",
+        authDomain: "cs451-group6.firebaseapp.com",
+        databaseURL: "https://cs451-group6.firebaseio.com",
+        projectId: "cs451-group6",
+        storageBucket: "cs451-group6.appspot.com",
+        messagingSenderId: "631480008090"
+    };
+    firebase.initializeApp(config);
+      
+    var firebaseRef = firebase.database().ref("Users");
+      
+    firebaseRef.on("child_added", snap => {
+        var image = snap.child("image").val();
+        var username = snap.child("username").val();
+        var trimmedName = username.substring(0,username.indexOf('@'));
+        data[trimmedName] = {'image': image,'username':username};
+    });
+}
 
 
 
