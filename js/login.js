@@ -16,8 +16,7 @@ ipcRenderer.on('load_names', function(event,data){
     }
     
     //When a user is clicked, send it to main for authentication
-    $('.panel').click(function(e){
-        e.preventDefault();
+    $('.panel').click(function(){
         const usernameClicked = $(this).children('.username').text();
         ipcRenderer.send('user_signin', usernameClicked);
     });

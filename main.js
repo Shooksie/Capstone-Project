@@ -4,6 +4,8 @@ const path = require('path');
 const url = require('url');
 var firebase = require('firebase');
 
+ipcMain.setMaxListeners(0);
+
 let win;
 
 //container to store firebase data
@@ -67,16 +69,17 @@ function initIndex(username) {
         protocol: 'file:',
         slashes: true
     }));
-    console.log(icpMain);
-    console.log(webContents);
 
     //sending username to index.js
     win.webContents.on('did-finish-load',function(){
         win.webContents.send('send_current_user', data[username]);
     });
     ipcMain.on('user_signout',function(){
-        firebase.auth().signOut();       
-        initLogin();
+        firebase.auth().signOut().then(function() {       
+            initLogin();
+        }).catch(function(error) {
+            console.log('Sign out unsuccesful');
+        });
     });
     win.on('closed', function () {
         win = null
