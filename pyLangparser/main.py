@@ -1,3 +1,5 @@
+import sys, json, numpy as np
+
 from Parser.parser import parser
 from supportedlanguages import LanguageChoice
 
@@ -5,6 +7,7 @@ fileToParse =  open('file.cpp', 'r')
 
 langSup = LanguageChoice()
 supported = langSup.getSupported()
+
 
 print('choose a value for languages bellow')
 for key in supported['supported']:
@@ -17,4 +20,3 @@ c = parser()
 c.setLang(fileObj)
 c.setFile(fileToParse)
 c.simplify()
-

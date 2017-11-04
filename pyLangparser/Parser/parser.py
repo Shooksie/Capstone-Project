@@ -20,21 +20,22 @@ class parser:
         return
 
     def setFile(self, val):
-        self.fileToSimp = val
+        with open('tempfile.txt', 'w') as toWrite:
+            toWrite.write(val)
+        toRead =  open('tempfile.txt', 'r')
+        self.fileToSimp = toRead
         return
 
     def simplify(self):
         if self.langObj['type'] == 'declerative-OOP':
-            self.declerativeSimp()
-        return
+            return self.declerativeSimp()
+
     def declerativeSimp(self):
         self.newCode = ''
         for line in self.fileToSimp:
             splitline = line.split()
             self.declartiveLine(splitline )
-        print(self.variableObj)
-        print(self.newCode)
-        return
+        return [self.newCode, self.variableObj]
     def declartiveLine(self, line):
         varbool = False
         for i in range(0, len(line)):
