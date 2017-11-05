@@ -2,7 +2,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch",
+            //Config for debugging electron main process
+            "name": "Debug - Main",
             "type": "node",
             "request": "launch",
             "program": "${workspaceFolder}\\main.js",
@@ -16,6 +17,34 @@
             ],
             "env": {},
             "sourceMaps": false
+        },
+        {
+            //Config for debugging electron renderer process
+            "name": "Debug - Renderer",
+            "type": "chrome",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "${workspaceFolder}\\node_modules\\electron\\dist\\electron.exe",
+            "runtimeArgs": [
+                "${workspaceRoot}",
+                "--enable-logging",
+                "--remote-debugging-port=9222"
+             ],
+             "sourceMaps": false
+        },
+        {
+            "name": "Attach",
+            "type": "chrome",
+            "request": "launch",
+            "port": 5858,
+            "address": "localhost",
+            "sourceMaps": false
+        },
+        {
+            "name": "Attach to Process",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222
         }
     ]
 }

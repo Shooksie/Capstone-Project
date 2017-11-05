@@ -1,7 +1,7 @@
 {
   "name": "standard-project",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Code Plagiarism Desktop app",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
@@ -14,11 +14,11 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "cs451 Group 6",
   "license": "CC0-1.0",
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "electron": "^1.7.9",
+    "firebase": "^4.6.1",
     "jquery": "^3.2.1"
   },
   "devDependencies": {

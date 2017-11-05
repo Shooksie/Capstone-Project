@@ -36,4 +36,4 @@ dialog.showOpenDialog({
             console.log(fileNames);
         }
     ]
-});**/
+});
