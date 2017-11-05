@@ -28,13 +28,38 @@ header {
   align-items: center;
 }
 
+.code-area {
+  overflow: auto;
+  background-color: #F8F8F8;
+  max-height: 500px
+  border: 1px solid lightgrey;
+  color: black
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.pre-code {
+  height: 100%;
+  width: 100%;
+  max-height: 500px;
+  border: 1px solid lightgrey;
+  background-color: white;
+}
+.code-viewer {
+  background-color: white;
+  overflow: auto;
+  flex: 1;
+  max-height: 800px;
+  overflow: auto;
+}
+
 .text-styling {
-  color: black;
+  color: #00001a;
   font-size: 17px;
 }
 
 .line-row {
-  border-bottom: 1px solid lightgrey;
+  background-color: #F8F8F8;
   display: flex;
   flex-direction: row;
   white-space:pre;
@@ -42,7 +67,6 @@ header {
 
 .line-row-same {
   background-color: lightgreen;
-  border-bottom: 1px solid lightgrey;
   display: flex;
   flex-direction: row;
   white-space:pre;
@@ -50,23 +74,25 @@ header {
 
 .line-row-diff {
   background-color: #ff6666;
-  border-bottom: 1px solid lightgrey;
   display: flex;
   flex-direction: row;
   white-space:pre;
 }
 
 .side-number {
-  border-right: 1px solid black;
-  width: 50px;'
+  background-color: #e6f2ff;
+  margin-right: 10px;
+  width: 30px;'
 }
 
 .side-number p {
-  color: black;
-  font-size: 17px;
+  color: #585858;
+  font-size: 12px;
 }
 
 .option {
+  display: flex;
+  align-items: center;
   color: white;
   padding: 10px 25px;
   font-size: 1.5rem;

@@ -28,26 +28,43 @@ function readFile(filepath, num="1") {
           tocompare = values;
         }
         for ( var i = 0; i < values.length; i++ ) {
+          var found = false;
           if ( tocompare.length > 0 && num === '2' ) {
-            if ( values[i] === tocompare[i] ) {
-              toAppend.innerHTML +=
-              ("<div class='line-row-same'>" +
-                "<div class='side-number'>" +
-                  "<p>"+ i + "</p>" +
-                "</div>" +
-                "<div>"+
-                  "<p class='text-styling'>"+ values[i] +"</p>" +
-                "</div></div>")
-            } else {
+            for ( var z=0; z < tocompare.length; z++ ) {
+              if ( values[i] === tocompare[z] && !found &&values[i].length !== 0) {
+                found = true
+                z = tocompare.length;
                 toAppend.innerHTML +=
-                ("<div class='line-row-diff'>" +
+                ("<div class='line-row-same'>" +
                   "<div class='side-number'>" +
                     "<p>"+ i + "</p>" +
                   "</div>" +
-                  "<div>" +
+                  "<div>"+
                     "<p class='text-styling'>"+ values[i] +"</p>" +
                   "</div></div>")
               }
+            }
+            if ( values[i].length !== 0 && !found ) {
+                  found = true;
+                  toAppend.innerHTML +=
+                  ("<div class='line-row-diff'>" +
+                    "<div class='side-number'>" +
+                      "<p>"+ i + "</p>" +
+                    "</div>" +
+                    "<div>" +
+                      "<p class='text-styling'>"+ values[i] +"</p>" +
+                    "</div></div>")
+                }
+             else if ( !found) {
+               found = true
+               toAppend.innerHTML += ("<div class='line-row'>" +
+                   "<div class='side-number'>" +
+                     "<p>"+ i + "</p>" +
+                   "</div>" +
+                   "<div>"+
+                     "<p class='text-styling'>"+ values[i] +"</p>" +
+                   "</div></div>");
+               }
             } else {
               toAppend.innerHTML += ("<div class='line-row'>" +
                   "<div class='side-number'>" +
@@ -113,16 +130,21 @@ document.getElementById('minimize').addEventListener('click',minimizeWindow);
 document.getElementById('select-file1').addEventListener('click',function(){
 
   remote.dialog.showOpenDialog(function (fileNames) {
+        var toAppend = document.getElementById("text-content-1");
+        toAppend.innerHTML = "";
+        var toAppend = document.getElementById("text-content-2");
+        toAppend.innerHTML = "";
         dialogFunction(fileNames);
     });
 }, false);
 
 document.getElementById('select-file2').addEventListener('click', function(){
+    var toAppend = document.getElementById("text-content-2");
+
     remote.dialog.showOpenDialog(function (fileNames) {
         if(fileNames === undefined){
             console.log("No file selected");
         } else{
-            var toAppend = document.getElementById("text-content-2");
             toAppend.innerHTML = "";
             readFile(fileNames[0], "2");
         }

@@ -6,46 +6,48 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/frame_actions.css">
     </head>
-    <body style="background-color: lightgrey">
+    <body style="background-color: #202020;">
         <div id="frame_actions">
-            <header>
-                <div class="option" id="close">&#x2716;</div>
-                <div class="option" id="maximize">&#x1f5d6;</div>
-                <div class="option" id="minimize">&#x1f5d5;</div>
+            <header style="height: 30px; position: fixed; width: 100%;">
+                <div class="option" id="close">&times;</div>
+                <div class="option" id="maximize">&square;</div>
+                <div class="option" id="minimize">&minus;</div>
             </header>
         </div>
-        <form action="index.html" style="display: inline-block;">
-            <input type="submit" value="Back to Home" action ="index.html"/>
-        </form>
-        <div>
-        <hr>
+        <div style="background-color: #202020; display: flex; flex-direction: column;">
+          <form action="index.html" style="display: inline-block; margin-top: 30px">
+              <input style="float: left;" type="submit" value="Back to Home" action ="index.html"/>
+          </form>
+          <form id='language-options'></form>
+          <div class="code-viewer" style="display: flex; flex-direction: row; justify-content: space-between">
             <div style="display: flex; flex-direction: row">
                 <input type="button" value="Choose a file" id="select-file1"/>
                 <p id="file-name-1" style="font-size: 15px;"> upload file </p>
                 <input type="button" id="save-changes-1" value="Save changes"/>
                 <input type="button" id="delete-file-1" value="Delete file"/>
             </div>
-            <br>
-            <div style="display: flex; align-items: center; margin-bottom: 4%">
-              <!--<textarea style="border-radius: 10px; border-color: lightgrey; width: 100%; height: 300px; margin-right: 10px; margin-left: 10px" id="content-editor1" rows="5"></textarea><br><br>-->
-              <div style="width: 100%;background-color: white; display: flex; flex-direction: column; color: black" id="text-content-1"></div>
-            </div>
-            <hr>
             <div style="display: flex; flex-direction: row;">
               <input type="button" value="Choose a file" id="select-file2"/>
               <p id="file-name-2" style="font-size: 15px;"> upload file </p>
               <input type="button" id="save-changes-2" value="Save changes"/>
               <input type="button" id="delete-file-2" value="Delete file"/>
             </div>
-            <br>
+          </div>
+          <div class="code-viewer" style="display: flex; flex-direction: row">
+          <hr>
+              <div style="width: 100%; display: flex; align-items: center; margin-bottom: 4%">
+                <!--<textarea style="border-radius: 10px; border-color: lightgrey; width: 100%; height: 300px; margin-right: 10px; margin-left: 10px" id="content-editor1" rows="5"></textarea><br><br>-->
+                <div class="pre-code" id="text-content-1"></div>
+              </div>
+              <div style="width: 100%; display: flex; align-items: center; margin-bottom: 4%">
+                <div class="pre-code" id="text-content-2"></div>
+              </div>
+          <hr>
         </div>
-        <div style="display: flex; align-items: center; margin-bottom: 4%">
-          <div style="width: 100%;background-color: white; display: flex; flex-direction: column; color: black" id="text-content-2"></div>
-        </div>
-        <hr>
-        <form action="">
-            <input type="button" value="Build Report">
-        </form>
-        <script src="../js/upload_files.js"></script>
+          <form style="" action="">
+              <input type="button" value="Build Report">
+          </form>
+          <script src="../js/upload_files.js"></script>
+      </div>
     </body>
 </html>
