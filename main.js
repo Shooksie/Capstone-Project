@@ -2,7 +2,7 @@
 const {app,BrowserWindow, ipcMain, webContents,remote,EventEmitter} = require('electron');
 const path = require('path');
 const url = require('url');
-var firebase = require('firebase');
+const firebase = require('firebase');
 
 let loginWin;
 let indexWin;

@@ -3,7 +3,7 @@
 .idea/
 tempfile.txt
 .vscode
-node_modules
+node_modules/
 pyLangparser/.idea/
 package-lock.json
 Would skip repository electron-quick-start/

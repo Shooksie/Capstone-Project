@@ -7,6 +7,7 @@ var remote = require('electron').remote;
 var fs = require('fs');
 
 var tocompare = [];
+var firstRender = '';
 
 function dialogFunction(fileNames) {
   if(fileNames === undefined){
@@ -22,8 +23,10 @@ function readFile(filepath, num="1") {
             alert("An error ocurred reading the file :" + err.message);
             return;
         }
-        values = data.split('\n')
-        var toAppend = document.getElementById("text-content-"+ num)
+        values = data.split('\n');
+        sameLines = [];
+        diffLines = [];
+        var toAppend = document.getElementById("text-content-"+ num);
         if( num === '1' ) {
           tocompare = values;
         }
@@ -32,6 +35,7 @@ function readFile(filepath, num="1") {
           if ( tocompare.length > 0 && num === '2' ) {
             for ( var z=0; z < tocompare.length; z++ ) {
               if ( values[i] === tocompare[z] && !found &&values[i].length !== 0) {
+                sameLines.push(z);
                 found = true
                 z = tocompare.length;
                 toAppend.innerHTML +=
@@ -76,6 +80,30 @@ function readFile(filepath, num="1") {
           }
         }
         //document.getElementById("content-editor"+ num).value = data;
+        if ( num === '2') {
+          var toAppend = document.getElementById("text-content-1");
+          toAppend.innerHTML = '';
+          for ( var i = 0; i < tocompare.length; i++) {
+            if ( sameLines.includes(i) ) {
+              toAppend.innerHTML +=
+              ("<div class='line-row-same'>" +
+                "<div class='side-number'>" +
+                  "<p>"+ i + "</p>" +
+                "</div>" +
+                "<div>"+
+                  "<p class='text-styling'>"+ tocompare[i] +"</p>" +
+                "</div></div>")
+            } else {
+              toAppend.innerHTML += ("<div class='line-row'>" +
+                  "<div class='side-number'>" +
+                    "<p>"+ i + "</p>" +
+                  "</div>" +
+                  "<div>"+
+                    "<p class='text-styling'>"+ tocompare[i] +"</p>" +
+                  "</div></div>");
+            }
+          }
+        }
         filename = filepath.split('/')
         document.getElementById("file-name-"+ num).innerHTML = filename[filename.length - 1];
     });
