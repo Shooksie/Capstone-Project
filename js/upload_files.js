@@ -37,14 +37,13 @@ function readFile(filepath, num="1") {
               if ( values[i] === tocompare[z] && !found &&values[i].length !== 0) {
                 sameLines.push(z);
                 found = true
-                z = tocompare.length;
                 toAppend.innerHTML +=
                 ("<div class='line-row-same'>" +
                   "<div class='side-number'>" +
                     "<p>"+ i + "</p>" +
                   "</div>" +
                   "<div>"+
-                    "<p class='text-styling'>"+ values[i] +"</p>" +
+                    "<p class='text-styling'>"+ values[i] + ' //line: '+ z +"</p>" +
                   "</div></div>")
               }
             }
@@ -56,7 +55,7 @@ function readFile(filepath, num="1") {
                       "<p>"+ i + "</p>" +
                     "</div>" +
                     "<div>" +
-                      "<p class='text-styling'>"+ values[i] +"</p>" +
+                      "<p class='text-styling'>"+ values[i] + "</p>" +
                     "</div></div>")
                 }
              else if ( !found) {
@@ -80,7 +79,9 @@ function readFile(filepath, num="1") {
           }
         }
         //document.getElementById("content-editor"+ num).value = data;
+        //TODO: split the bottom code into a sperate function
         if ( num === '2') {
+          //rerending the text-content-1 with all the similarties
           var toAppend = document.getElementById("text-content-1");
           toAppend.innerHTML = '';
           for ( var i = 0; i < tocompare.length; i++) {
