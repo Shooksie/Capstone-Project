@@ -40,11 +40,9 @@ class pyBridge {
     this.connection.stdin.write(JSON.stringify(data));
     this.connection.stdin.end();
   }
-}
+};
 
-let x = new pyBridge();
-x.parseFile("#include <string>using namespace std;\nvoid main() {\nint num12323 = 0;\nstring uhedheuhf = '';\nfor ( int i = 0; i < 20; i++ ) {\nnum12323 *= i;\n}\nreturn;}")
-
+exports.pyBridge = pyBridge;
 //start.js
 /**var spawn = require('child_process').spawn,
     py    = spawn('python3', ['./init.py']),

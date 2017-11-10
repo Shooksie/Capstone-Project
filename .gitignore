@@ -2,7 +2,8 @@
 .DS_Store
 .idea/
 tempfile.txt
-node_modules
+.vscode
+node_modules/
 pyLangparser/.idea/
 package-lock.json
 Would skip repository electron-quick-start/

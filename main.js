@@ -2,7 +2,7 @@
 const {app,BrowserWindow, ipcMain, webContents,remote,EventEmitter} = require('electron');
 const path = require('path');
 const url = require('url');
-var firebase = require('firebase');
+const firebase = require('firebase');
 
 let loginWin;
 let indexWin;
@@ -14,7 +14,7 @@ app.on('ready', function(){
 
     var currentUser = null;
 
-    initFirebase(); 
+    initFirebase();
     initLogin();
     initIndex();
 
@@ -26,7 +26,7 @@ app.on('ready', function(){
         app.quit();
     });
 
-    
+
     indexWin.on('closed', function () {
         app.quit();
     });
@@ -48,7 +48,7 @@ app.on('ready', function(){
     //Recieving signal from index.js to sign out from firebase
     ipcMain.on('user_signout',function(){
         firebase.auth().signOut().then(function() {
-            currentUser = null;       
+            currentUser = null;
             indexWin.hide();
             loginWin.show();
         }).catch(function(error) {
@@ -64,7 +64,7 @@ function initLogin() {
         pathname: path.join(__dirname, 'views/login.html'),
         protocol: 'file:',
         slashes: true
-    }));   
+    }));
 }
 
 function initIndex() {
@@ -88,9 +88,9 @@ function initFirebase(){
         messagingSenderId: "631480008090"
     };
     firebase.initializeApp(config);
-      
+
     var firebaseRef = firebase.database().ref("Users");
-      
+
     firebaseRef.on("child_added", snap => {
         var image = snap.child("image").val();
         var username = snap.child("username").val();
@@ -117,4 +117,3 @@ app.on('activate', function () {
     initLogin()
   }
 });
-
