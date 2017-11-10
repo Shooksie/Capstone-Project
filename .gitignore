@@ -2,7 +2,6 @@
 .DS_Store
 .idea/
 tempfile.txt
-.vscode
 node_modules
 pyLangparser/.idea/
 package-lock.json
