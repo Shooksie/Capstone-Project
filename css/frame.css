@@ -3,23 +3,6 @@
   padding: 0;
 }
 
-/*div {
-  text-align: center;
-  color: black;
-  font-size: 2rem;
-  font-family: calibri;
-  color: white;
-}
-
-header {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
-  background: #17110F;
-  align-self: stretch;
-  -webkit-app-region: drag;
-}*/
-
 #frame {
   height:10%;
   display: flex;
@@ -32,68 +15,6 @@ header {
 .options {
   display: flex;
   flex-direction: row-reverse;
-}
-
-.code-area {
-  overflow: auto;
-  background-color: #F8F8F8;
-  max-height: 500px
-  border: 1px solid lightgrey;
-  color: black
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-.pre-code {
-  height: 100%;
-  width: 100%;
-  max-height: 500px;
-  border: 1px solid lightgrey;
-  background-color: white;
-}
-.code-viewer {
-  background-color: white;
-  overflow: auto;
-  flex: 1;
-  max-height: 800px;
-  overflow: auto;
-}
-
-.text-styling {
-  color: #00001a;
-  font-size: 17px;
-}
-
-.line-row {
-  background-color: #F8F8F8;
-  display: flex;
-  flex-direction: row;
-  white-space:pre;
-}
-
-.line-row-same {
-  background-color: lightgreen;
-  display: flex;
-  flex-direction: row;
-  white-space:pre;
-}
-
-.line-row-diff {
-  background-color: #ff6666;
-  display: flex;
-  flex-direction: row;
-  white-space:pre;
-}
-
-.side-number {
-  background-color: #e6f2ff;
-  margin-right: 10px;
-  width: 30px;'
-}
-
-.side-number p {
-  color: #585858;
-  font-size: 12px;
 }
 
 .option {
