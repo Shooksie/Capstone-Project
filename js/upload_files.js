@@ -2,6 +2,9 @@
 
 //var remote = require('remote');
 //const dialog = require('electron').remote;
+window.$ = window.jQuery = require("jquery");
+$.getScript('../js/frame.js');
+
 var electron = require('electron');
 var remote = require('electron').remote;
 var fs = require('fs');
@@ -136,25 +139,6 @@ function saveChanges(filepath,content){
         alert("The file has been succesfully saved");
     });
 }
-
-function closeWindow(){
-    var window = remote.getCurrentWindow();
-    window.close();
-}
-function minimizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.minimize();
-}
-function maximizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.isMaximized() ? window.unmaximize() : window.maximize()
-}
-
-document.getElementById('close').addEventListener('click',closeWindow);
-
-document.getElementById('maximize').addEventListener('click',maximizeWindow);
-
-document.getElementById('minimize').addEventListener('click',minimizeWindow);
 
 document.getElementById('select-file1').addEventListener('click',function(){
 
