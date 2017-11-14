@@ -6,6 +6,7 @@ const firebase = require('firebase');
 
 let loginWin;
 let indexWin;
+let uploadWin;
 
 //container to store firebase data
 var data = {};
@@ -17,20 +18,25 @@ app.on('ready', function(){
     initFirebase();
     initLogin();
     initIndex();
+    initUpload();
 
     //sending firebase usernames to login.js
     loginWin.webContents.on('did-finish-load',function(){
         loginWin.webContents.send('load_names', data);
     });
+
     loginWin.on('closed', function () {
         app.quit();
     });
-
-
     indexWin.on('closed', function () {
         app.quit();
     });
+    uploadWin.on('closed', function () {
+        app.quit();
+    });
+
     //Recieving username from login.js to authenticate to firebase
+    //Sending username to index.html
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
@@ -55,11 +61,20 @@ app.on('ready', function(){
             console.log('Sign out unsuccesful');
         });
     });
+
+    //Receiving signal from index.js to navigate to upload_files.html
+    //Sending username to upload_files.html
+    ipcMain.on('nav_compare',function(){
+        indexWin.hide();
+        uploadWin.webContents.send('send_current_user', data[currentUser]);
+        uploadWin.setTitle('Upload - ' + currentUser);
+        uploadWin.show();
+    });
+
 });
 
 function initLogin() {
     loginWin = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
-    loginWin.setTitle('Login');
     loginWin.loadURL(url.format({
         pathname: path.join(__dirname, 'views/login.html'),
         protocol: 'file:',
@@ -71,6 +86,15 @@ function initIndex() {
     indexWin = new BrowserWindow({width: 800, height: 600, show: false, frame : false})
     indexWin.loadURL(url.format({
         pathname: path.join(__dirname, 'views/index.html'),
+        protocol: 'file:',
+        slashes: true
+    }));
+}
+
+function initUpload() {
+    uploadWin = new BrowserWindow({width: 800, height: 1000, show: false, frame : false})
+    uploadWin.loadURL(url.format({
+        pathname: path.join(__dirname, 'views/upload_files.html'),
         protocol: 'file:',
         slashes: true
     }));

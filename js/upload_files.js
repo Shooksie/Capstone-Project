@@ -2,6 +2,7 @@
 
 //var remote = require('remote');
 //const dialog = require('electron').remote;
+const ipcRenderer = require('electron');
 window.$ = window.jQuery = require("jquery");
 $.getScript('../js/frame.js');
 
