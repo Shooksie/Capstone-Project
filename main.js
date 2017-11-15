@@ -4,8 +4,7 @@ const path = require('path');
 const url = require('url');
 const firebase = require('firebase');
 
-let loginWin;
-let indexWin;
+let win;
 
 //container to store firebase data
 var data = {};
@@ -15,29 +14,29 @@ app.on('ready', function(){
     var currentUser = null;
 
     initFirebase();
-    initLogin();
-    initIndex();
+    initWindow();
 
-    //sending firebase usernames to login.js
-    loginWin.webContents.on('did-finish-load',function(){
-        loginWin.webContents.send('load_names', data);
+    //Fires after a url is loaded into win
+    //If someone is logged in, send the credentials to the page. else, display all the names on login.html
+    win.webContents.on('did-finish-load',function(){
+        if(currentUser != null){
+            win.webContents.send('send_current_user', data[currentUser]);
+        }
+        else{
+            win.webContents.send('load_names', data);
+        }
     });
-    loginWin.on('closed', function () {
+
+    win.on('closed', function () {
         app.quit();
     });
 
-
-    indexWin.on('closed', function () {
-        app.quit();
-    });
     //Recieving username from login.js to authenticate to firebase
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
-            loginWin.hide();
-            indexWin.webContents.send('send_current_user', data[currentUser]);
-            indexWin.setTitle('Dashboard - ' + currentUser);
-            indexWin.show();
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true})); 
+            win.setTitle('Dashboard - ' + currentUser);     
         }).catch(function(error){
             if(error!=null){
                 console.log(error.message);
@@ -45,32 +44,40 @@ app.on('ready', function(){
         });
     });
 
-    //Recieving signal from index.js to sign out from firebase
+    //Recieving signal from any page to sign out from firebase
     ipcMain.on('user_signout',function(){
         firebase.auth().signOut().then(function() {
             currentUser = null;
-            indexWin.hide();
-            loginWin.show();
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/login.html'), protocol: 'file:',slashes: true}));
+            win.setTitle('Login');
         }).catch(function(error) {
             console.log('Sign out unsuccesful');
         });
     });
+
+    //Receiving signal from index.js to navigate to upload_files.html
+    ipcMain.on('nav_upload',function(){
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/upload_files.html'), protocol: 'file:',slashes: true}));
+        win.setTitle('Upload - ' + currentUser);
+    });
+
+    //Receiving signal from index.js to navigate to report_mockup.html
+    ipcMain.on('nav_report',function(){
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/report_mockup.html'), protocol: 'file:',slashes: true}));
+        win.setTitle('Reports - ' + currentUser);
+    });
+    //Receiving signal from either upload_files.js or report_mockup.js to navigate back to index.html
+    ipcMain.on('nav_index',function(){
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
+        win.setTitle('Dashboard - ' + currentUser);
+    });
+
 });
 
-function initLogin() {
-    loginWin = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
-    loginWin.setTitle('Login');
-    loginWin.loadURL(url.format({
+function initWindow() {
+    win = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
+    win.loadURL(url.format({
         pathname: path.join(__dirname, 'views/login.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
-
-function initIndex() {
-    indexWin = new BrowserWindow({width: 800, height: 600, show: false, frame : false})
-    indexWin.loadURL(url.format({
-        pathname: path.join(__dirname, 'views/index.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -113,7 +120,7 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (loginWin === null) {
+  if (win === null) {
     initLogin()
   }
 });

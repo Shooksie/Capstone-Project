@@ -4,50 +4,47 @@
         <title>Code Plagiarism Detector</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../css/frame_actions.css">
+        <link rel="stylesheet" href="../css/frame.css">
+        <link rel="stylesheet" href="../css/upload_files.css">
     </head>
-    <body style="background-color: #202020;">
-        <div id="frame_actions">
-            <header>
-                <div class="option" id="close">&times;</div>
-                <div class="option" id="maximize">&square;</div>
-                <div class="option" id="minimize">&minus;</div>
-            </header>
+    <body>
+        <div id="frame">
+            <div class='options'>
+                
+            </div>
         </div>
-        <div style="background-color: #202020; display: flex; flex-direction: column;">
-          <form action="index.html" style="display: inline-block; margin-top: 30px">
-              <input style="float: left;" type="submit" value="Back to Home" action ="index.html"/>
+        <div id='container'>
+          <form id='main-menu' action="index.html">
+              <input id='btnHome' type="submit" value="Back to Home" action ="index.html"/>
           </form>
           <form id='language-options'></form>
-          <div class="code-viewer" style="display: flex; flex-direction: row; justify-content: space-between">
-            <div style="display: flex; flex-direction: row">
+          <div class="code-viewer">
+            <div class='btn-container'>
                 <input type="button" value="Choose a file" id="select-file1"/>
-                <p id="file-name-1" style="font-size: 15px;"> upload file </p>
+                <p id="file-name-1" > upload file </p>
                 <input type="button" id="save-changes-1" value="Save changes"/>
                 <input type="button" id="delete-file-1" value="Delete file"/>
             </div>
-            <div style="display: flex; flex-direction: row;">
+            <div class='btn-container'>
               <input type="button" value="Choose a file" id="select-file2"/>
-              <p id="file-name-2" style="font-size: 15px;"> upload file </p>
+              <p id="file-name-2"> upload file </p>
               <input type="button" id="save-changes-2" value="Save changes"/>
               <input type="button" id="delete-file-2" value="Delete file"/>
             </div>
           </div>
-          <div class="code-viewer" style="display: flex; flex-direction: row">
-          <hr>
-              <div style="width: 100%; display: flex; align-items: center; margin-bottom: 4%">
+          <div class="code-viewer">
+              <div class='viewer-container'>
                 <!--<textarea style="border-radius: 10px; border-color: lightgrey; width: 100%; height: 300px; margin-right: 10px; margin-left: 10px" id="content-editor1" rows="5"></textarea><br><br>-->
                 <div class="pre-code" id="text-content-1"></div>
               </div>
-              <div style="width: 100%; display: flex; align-items: center; margin-bottom: 4%">
+              <div class='viewer-container'>
                 <div class="pre-code" id="text-content-2"></div>
               </div>
-          <hr>
         </div>
           <form style="" action="">
               <input type="button" value="Build Report">
           </form>
-          <script src="../js/upload_files.js"></script>
       </div>
     </body>
+    <script src="../js/upload_files.js"></script>
 </html>

@@ -5,19 +5,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/report.css">
-        <link rel="stylesheet" href="../css/frame_actions.css">
+        <link rel="stylesheet" href="../css/frame.css">
     </head>
     <body>
-      <div id="frame_actions">
-          <header>
-              <div class="option" id="close">&#x2716;</div>
-              <div class="option" id="maximize">&#x1f5d6;</div>
-              <div class="option" id="minimize">&#x1f5d5;</div>
-          </header>
-      </div>
+        <div id="frame">
+            <div class = 'options'>
+  
+            </div>
+        </div>
         <div class="report-container">
             <form action="index.html" style="display: inline-block;">
-                <input type="submit" value="Back to Home" action ="index.html"/>
+                <input id='btnHome' type="submit" value="Back to Home" action ="index.html"/>
             </form>
             <h2 style="display: inline-block; margin-left: 50px;">Percentage Match: X%</h2><br>
             <div id="report-container-left">
@@ -106,5 +104,6 @@
                 </p>
             </div>
         </div>
+        <script src="../js/report_mockup.js"></script>
     </body>
 </html>

@@ -2,6 +2,10 @@
 
 //var remote = require('remote');
 //const dialog = require('electron').remote;
+const ipcRenderer = require('electron').ipcRenderer;
+window.$ = window.jQuery = require("jquery");
+$.getScript('../js/frame.js');
+
 var electron = require('electron');
 var remote = require('electron').remote;
 var fs = require('fs');
@@ -137,25 +141,6 @@ function saveChanges(filepath,content){
     });
 }
 
-function closeWindow(){
-    var window = remote.getCurrentWindow();
-    window.close();
-}
-function minimizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.minimize();
-}
-function maximizeWindow(){
-    var window = remote.getCurrentWindow();
-    window.isMaximized() ? window.unmaximize() : window.maximize()
-}
-
-document.getElementById('close').addEventListener('click',closeWindow);
-
-document.getElementById('maximize').addEventListener('click',maximizeWindow);
-
-document.getElementById('minimize').addEventListener('click',minimizeWindow);
-
 document.getElementById('select-file1').addEventListener('click',function(){
 
   remote.dialog.showOpenDialog(function (fileNames) {
@@ -201,6 +186,11 @@ document.getElementById('delete-file').addEventListener('click', function(){
         alert("Please select a file first");
     }
 },false);
+
+$('#btnHome').on('click',function(e){
+    e.preventDefault();
+    ipcRenderer.send('nav_index');
+});
 
 //Uncaught TypeError: Cannot read property 'addEventListener' of null at upload_files.js:44
 /*document.getElementById('create-new-file').addEventListener('click',function(){

@@ -1,8 +1,6 @@
-window.$ = window.jQuery = require("jquery");
-
-
 //Load the icons for closing,maximizing and minimizing the window
-const icons = {'close':'&#x2716;','maximize':'&#x1f5d6;','minimize':'&#x1f5d5;'};
+const icons = {'close':'&times;','maximize':'&square;','minimize':'&minus;'};
+
 for (var i in icons){
     $('.options').append($('<div/>').addClass('option').attr('id', i).html(icons[i]));
 }
@@ -22,7 +20,7 @@ $('#close').click(function(){
 $('#maximize').click(function(){
     var window = remote.getCurrentWindow();
     if(window.isMaximized()){
-        $('#maximize').html('&#x1f5d6;');
+        $('#maximize').html('&square;');
         window.unmaximize();
     }
     else{
@@ -34,6 +32,11 @@ $('#maximize').click(function(){
 $('#minimize').click(function(){
     var window = remote.getCurrentWindow();
     window.minimize();
+});
+
+//Recieving the authenticated user from main.js
+ipcRenderer.on('send_current_user', function(event,user){
+    $('.logged_user_image').children('img').attr('src','../images/' + user['image']);
 });
 
 //Sending signal to main.js to signout of firebase
