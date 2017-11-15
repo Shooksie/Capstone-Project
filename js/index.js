@@ -7,3 +7,8 @@ $('#btnCompare').on('click',function(e){
     e.preventDefault();
     ipcRenderer.send('nav_upload');
 });
+
+$('#btnreport').on('click',function(e){
+    e.preventDefault();
+    ipcRenderer.send('nav_report');
+});

@@ -187,6 +187,11 @@ document.getElementById('delete-file').addEventListener('click', function(){
     }
 },false);
 
+$('#btnHome').on('click',function(e){
+    e.preventDefault();
+    ipcRenderer.send('nav_index');
+});
+
 //Uncaught TypeError: Cannot read property 'addEventListener' of null at upload_files.js:44
 /*document.getElementById('create-new-file').addEventListener('click',function(){
     var content = document.getElementById("content-editor").value;

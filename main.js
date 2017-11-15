@@ -18,11 +18,9 @@ app.on('ready', function(){
 
     //Fires after a url is loaded into win
     win.webContents.on('did-finish-load',function(){
-        //Someone is authenticated, send the credentials to the win
         if(currentUser != null){
             win.webContents.send('send_current_user', data[currentUser]);
         }
-        //Must be on the login page, display all the users
         else{
             win.webContents.send('load_names', data);
         }
@@ -37,8 +35,7 @@ app.on('ready', function(){
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
-            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
-            
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true})); 
             win.setTitle('Dashboard - ' + currentUser);     
         }).catch(function(error){
             if(error!=null){
@@ -59,10 +56,20 @@ app.on('ready', function(){
     });
 
     //Receiving signal from index.js to navigate to upload_files.html
-    //Sending username to upload_files.html
     ipcMain.on('nav_upload',function(){
         win.loadURL(url.format({ pathname: path.join(__dirname, 'views/upload_files.html'), protocol: 'file:',slashes: true}));
         win.setTitle('Upload - ' + currentUser);
+    });
+
+    //Receiving signal from index.js to navigate to report_mockup.html
+    ipcMain.on('nav_report',function(){
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/report_mockup.html'), protocol: 'file:',slashes: true}));
+        win.setTitle('Reports - ' + currentUser);
+    });
+    //Receiving signal from either upload_files.js or report_mockup.js to navigate back to index.html
+    ipcMain.on('nav_index',function(){
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
+        win.setTitle('Dashboard - ' + currentUser);
     });
 
 });
