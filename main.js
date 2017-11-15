@@ -4,9 +4,7 @@ const path = require('path');
 const url = require('url');
 const firebase = require('firebase');
 
-let loginWin;
-let indexWin;
-let uploadWin;
+let win;
 
 //container to store firebase data
 var data = {};
@@ -16,22 +14,14 @@ app.on('ready', function(){
     var currentUser = null;
 
     initFirebase();
-    initLogin();
-    initIndex();
-    initUpload();
+    initWindow();
 
     //sending firebase usernames to login.js
-    loginWin.webContents.on('did-finish-load',function(){
-        loginWin.webContents.send('load_names', data);
+    win.webContents.on('did-finish-load',function(){
+        win.webContents.send('load_names', data);
     });
 
-    loginWin.on('closed', function () {
-        app.quit();
-    });
-    indexWin.on('closed', function () {
-        app.quit();
-    });
-    uploadWin.on('closed', function () {
+    win.on('closed', function () {
         app.quit();
     });
 
@@ -40,10 +30,9 @@ app.on('ready', function(){
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
-            loginWin.hide();
-            indexWin.webContents.send('send_current_user', data[currentUser]);
-            indexWin.setTitle('Dashboard - ' + currentUser);
-            indexWin.show();
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
+            win.webContents.send('send_current_user', data[currentUser]);
+            win.setTitle('Dashboard - ' + currentUser);
         }).catch(function(error){
             if(error!=null){
                 console.log(error.message);
@@ -55,8 +44,8 @@ app.on('ready', function(){
     ipcMain.on('user_signout',function(){
         firebase.auth().signOut().then(function() {
             currentUser = null;
-            indexWin.hide();
-            loginWin.show();
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/login.html'), protocol: 'file:',slashes: true}));
+            win.setTitle('Login');
         }).catch(function(error) {
             console.log('Sign out unsuccesful');
         });
@@ -65,36 +54,17 @@ app.on('ready', function(){
     //Receiving signal from index.js to navigate to upload_files.html
     //Sending username to upload_files.html
     ipcMain.on('nav_compare',function(){
-        indexWin.hide();
-        uploadWin.webContents.send('send_current_user', data[currentUser]);
-        uploadWin.setTitle('Upload - ' + currentUser);
-        uploadWin.show();
+        win.loadURL(url.format({ pathname: path.join(__dirname, 'views/upload_files.html'), protocol: 'file:',slashes: true}));
+        win.webContents.send('send_current_user', data[currentUser]);
+        win.setTitle('Upload - ' + currentUser);
     });
 
 });
 
-function initLogin() {
-    loginWin = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
-    loginWin.loadURL(url.format({
+function initWindow() {
+    win = new BrowserWindow({width: 800, height: 600, title: 'Login', show: true, frame : false})
+    win.loadURL(url.format({
         pathname: path.join(__dirname, 'views/login.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
-
-function initIndex() {
-    indexWin = new BrowserWindow({width: 800, height: 600, show: false, frame : false})
-    indexWin.loadURL(url.format({
-        pathname: path.join(__dirname, 'views/index.html'),
-        protocol: 'file:',
-        slashes: true
-    }));
-}
-
-function initUpload() {
-    uploadWin = new BrowserWindow({width: 800, height: 1000, show: false, frame : false})
-    uploadWin.loadURL(url.format({
-        pathname: path.join(__dirname, 'views/upload_files.html'),
         protocol: 'file:',
         slashes: true
     }));
@@ -137,7 +107,7 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (loginWin === null) {
+  if (win === null) {
     initLogin()
   }
 });

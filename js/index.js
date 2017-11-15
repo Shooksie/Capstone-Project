@@ -6,4 +6,4 @@ $.getScript('../js/frame.js');
 $('#btnCompare').on('click',function(e){
     e.preventDefault();
     ipcRenderer.send('nav_compare');
-})
+});
