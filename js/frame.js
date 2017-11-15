@@ -1,5 +1,6 @@
 //Load the icons for closing,maximizing and minimizing the window
 const icons = {'close':'&times;','maximize':'&square;','minimize':'&minus;'};
+
 for (var i in icons){
     $('.options').append($('<div/>').addClass('option').attr('id', i).html(icons[i]));
 }
@@ -33,13 +34,13 @@ $('#minimize').click(function(){
     window.minimize();
 });
 
+//Recieving the authenticated user from main.js
+ipcRenderer.on('send_current_user', function(event,user){
+    $('.logged_user_image').children('img').attr('src','../images/' + user['image']);
+});
+
 //Sending signal to main.js to signout of firebase
 $('#user_box').click(function(e){
     e.preventDefault();
     ipcRenderer.send('user_signout');
-});
-
-//Recieving the authenticated user from main.js
-ipcRenderer.on('send_current_user', function(event,user){
-    $('.logged_user_image').children('img').attr('src','../images/' + user['image']);
 });

@@ -16,9 +16,16 @@ app.on('ready', function(){
     initFirebase();
     initWindow();
 
-    //sending firebase usernames to login.js
+    //Fires after a url is loaded into win
     win.webContents.on('did-finish-load',function(){
-        win.webContents.send('load_names', data);
+        //Someone is authenticated, send the credentials to the win
+        if(currentUser != null){
+            win.webContents.send('send_current_user', data[currentUser]);
+        }
+        //Must be on the login page, display all the users
+        else{
+            win.webContents.send('load_names', data);
+        }
     });
 
     win.on('closed', function () {
@@ -31,8 +38,8 @@ app.on('ready', function(){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
             win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
-            win.webContents.send('send_current_user', data[currentUser]);
-            win.setTitle('Dashboard - ' + currentUser);
+            
+            win.setTitle('Dashboard - ' + currentUser);     
         }).catch(function(error){
             if(error!=null){
                 console.log(error.message);
@@ -53,9 +60,8 @@ app.on('ready', function(){
 
     //Receiving signal from index.js to navigate to upload_files.html
     //Sending username to upload_files.html
-    ipcMain.on('nav_compare',function(){
+    ipcMain.on('nav_upload',function(){
         win.loadURL(url.format({ pathname: path.join(__dirname, 'views/upload_files.html'), protocol: 'file:',slashes: true}));
-        win.webContents.send('send_current_user', data[currentUser]);
         win.setTitle('Upload - ' + currentUser);
     });
 
