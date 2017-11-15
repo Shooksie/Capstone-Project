@@ -17,6 +17,7 @@ app.on('ready', function(){
     initWindow();
 
     //Fires after a url is loaded into win
+    //If someone is logged in, send the credentials to the page. else, display all the names on login.html
     win.webContents.on('did-finish-load',function(){
         if(currentUser != null){
             win.webContents.send('send_current_user', data[currentUser]);
@@ -31,7 +32,6 @@ app.on('ready', function(){
     });
 
     //Recieving username from login.js to authenticate to firebase
-    //Sending username to index.html
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
@@ -44,7 +44,7 @@ app.on('ready', function(){
         });
     });
 
-    //Recieving signal from index.js to sign out from firebase
+    //Recieving signal from any page to sign out from firebase
     ipcMain.on('user_signout',function(){
         firebase.auth().signOut().then(function() {
             currentUser = null;
