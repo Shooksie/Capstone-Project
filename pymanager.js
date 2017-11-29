@@ -18,6 +18,8 @@ class pyBridge {
     this.connection = spawn('python3', ['./init.py']);
     var data = './pyLangparser/';
     this.supported = {};
+    this.code = {};
+    this.loading = true;
     this.connection.stdout.on('data', function(data){
       this.supported = JSON.parse(data);
     });
@@ -27,22 +29,30 @@ class pyBridge {
     this.connection.stdin.write(JSON.stringify(data));
     this.connection.stdin.end();
   }
-  parseFile(toParse) {
+  parseFile(toParse, excute) {
     this.connection = spawn('python3', ['./parser.py']);
     var data = ['C++', toParse];
-    this.supported = {};
     this.connection.stdout.on('data', function(data){
-      this.supported = JSON.parse(data);
+      this.code = JSON.parse(data);
     });
     this.connection.stdout.on('end', function(){
-        console.log(this.supported);
+      this.loading = false;
+      console.log(this.code);
+      excute(this.code)
+      //console.log(this.code);
+      console.log('finished');
+      return true;
     });
     this.connection.stdin.write(JSON.stringify(data));
     this.connection.stdin.end();
+  }
+
+  getCode() {
+    return this.code;
   }
 };
 
-exports.pyBridge = pyBridge;
+module.exports = pyBridge;
 //start.js
 /**var spawn = require('child_process').spawn,
     py    = spawn('python3', ['./init.py']),
