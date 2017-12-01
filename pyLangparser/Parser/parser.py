@@ -1,5 +1,6 @@
 
 
+spacearray = [ "{", "}", "(", ")"]
 def createTabs(tabounter):
     tabs = ''
     for i in range(0, tabounter):
@@ -21,14 +22,24 @@ class parser:
 
     def setFile(self, val):
         with open('tempfile.txt', 'w') as toWrite:
-            toWrite.write(val)
+            toWrite.write(self.codeBeautify(str(val)))
         toRead =  open('tempfile.txt', 'r')
-        self.fileToSimp = toRead
+        self.fileToSimp = toRead.readlines()
         return
 
     def simplify(self):
         if self.langObj['type'] == 'declerative-OOP':
             return self.declerativeSimp()
+
+    def codeBeautify(self, code):
+        beautified = ""
+        for line in code:
+            for char in line:
+                if char in spacearray:
+                    beautified+= " "+ char
+                else:
+                    beautified+= char
+        return beautified
 
     def declerativeSimp(self):
         self.newCode = ''
@@ -55,14 +66,19 @@ class parser:
                 self.translateObj[('variable'+str(self.varCounter))] = line[i]
                 self.newCode += ('variable'+str(self.varCounter)) + ' '
                 self.varCounter += 1
-                if line[i+1] == '=' and i < len(line) - 1:
-                    varbool = False
+                try:
+                    if line[i+1] == '=' and i < len(line) - 1:
+                        varbool = False
+                except IndexError:
+                    pass
             elif line[i] == '{':
-                self.newCode += '{'
+                self.newCode += createTabs(self.tabCounter) + '{'
                 self.tabCounter += 1
             elif line[i] == '}':
                 self.tabCounter -= 1
                 self.newCode += createTabs(self.tabCounter) + '}'
             else:
+                if i == 0:
+                    self.newCode += createTabs(self.tabCounter)
                 self.newCode += line[i] + ' '
         self.newCode +='\n'
