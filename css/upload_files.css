@@ -3,25 +3,27 @@ body{
 }
 
 #container{
-    background-color: #202020; 
-    display: flex; 
+    background-color: #202020;
+    display: flex;
     flex-direction: column;
 }
 
 #main-menu{
-    display: inline-block; 
+    display: inline-block;
     margin-top: 30px;
 }
 
 .code-viewer {
-    display: flex; 
-    flex-direction: row; 
-    justify-content: space-between
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .btn-container {
-    display: flex; 
-    flex-direction: row
+    display: flex;
+    flex-direction: row;
+    min-width: 50vw;
+    max-width: 50vw;
 }
 
 .btn-container p{
@@ -29,10 +31,13 @@ body{
 }
 
 .viewer-container{
-    width: 100%; 
-    display: flex; 
-    align-items: center; 
-    margin-bottom: 4%
+    display: flex;
+    align-items: center;
+    margin-bottom: 4%;
+    min-width: 50vw;
+    max-width: 50vw;
+    /*min-height: 100vh;*/
+    /*max-height: 100vh;*/
 }
 
 .code-area {
@@ -59,39 +64,39 @@ body{
     max-height: 800px;
     overflow: auto;
   }
-  
+
   .text-styling {
     color: #00001a;
     font-size: 17px;
   }
-  
+
   .line-row {
     background-color: #F8F8F8;
     display: flex;
     flex-direction: row;
     white-space:pre;
   }
-  
+
   .line-row-same {
     background-color: lightgreen;
     display: flex;
     flex-direction: row;
     white-space:pre;
   }
-  
+
   .line-row-diff {
     background-color: #ff6666;
     display: flex;
     flex-direction: row;
     white-space:pre;
   }
-  
+
   .side-number {
     background-color: #e6f2ff;
     margin-right: 10px;
     width: 30px;
   }
-  
+
   .side-number p {
     color: #585858;
     font-size: 12px;
