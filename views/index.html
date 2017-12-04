@@ -4,30 +4,32 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/frame.css">
         <link rel="stylesheet" href="../css/index.css">
     </head>
     <body>
-      <div id="frame">
-          <div class = 'options'>
-
-          </div>
-      </div>
-        <h1>Welcome Back</h1>
-        <form>
-            <input id='btnCompare' type="submit" value="Upload and Compare" action ="index.html"/>
-        </form>
-        <form action="reports.html">
-            <input id='btnReport' type="submit" value="Comparison Report" action ="index.html"/>
-        </form>
-        <br><br>
-        <div id="reports-container">
-            <h3>Previous Reports</h3>
-            <div id="reports-list">
+        <div id="frame">
+            <div class = 'options'>
 
             </div>
         </div>
+        <div class="container">
+            <h1 id='user-header'></h1>
+            <form>
+                <button id='btnCompare' type="submit" class = "btn btn-warning btn-lg">Upload and Compare</button>
+            </form>
+            <form action="report_mockup.html">
+                <button id='btnReport' type="submit" class = "btn btn-warning btn-lg">Comparison Report</button>
+            </form>
+            <h3>Upload History</h3>
+            <div class="jumbotron">
+                <a href="">report1 name</a>
+                <a href="">report2 name</a>
+                <a href="">report3 name</a>
+            </div>
+        </div>
+        
         <script src="../js/index.js"></script>
-        <script src="../js/reports.js"></script>
     </body>
 </html>
