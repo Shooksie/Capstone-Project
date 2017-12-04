@@ -1,8 +1,28 @@
 {
-    "name": "C++",
-    "type": "declerative-OOP",
-    "common-datatype": ["int","string","char","float","double"],
-    "conditionals": ["if","else","else if", "switch","while","for"],
-    "toignore":["using", "namespace", "#include"],
-    "extensions": ["cpp", "h"]
+  "name": "C++",
+  "type": "declerative-OOP",
+  "common-datatype": [
+    "int",
+    "string",
+    "char",
+    "float",
+    "double"
+  ],
+  "conditionals": [
+    "if",
+    "else",
+    "else if",
+    "switch",
+    "while",
+    "for"
+  ],
+  "toignore": [
+    "using",
+    "namespace",
+    "#include"
+  ],
+  "extensions": [
+    "cpp",
+    "h"
+  ]
 }
