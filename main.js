@@ -8,6 +8,7 @@ let win;
 
 //container to store firebase data
 var data = {};
+var reports = {};
 
 app.on('ready', function(){
 
@@ -21,6 +22,8 @@ app.on('ready', function(){
     win.webContents.on('did-finish-load',function(){
         if(currentUser != null){
             win.webContents.send('send_current_user', data[currentUser]);
+            // reports
+            win.webContents.send('load_reports', reports);
         }
         else{
             win.webContents.send('load_names', data);
@@ -35,8 +38,8 @@ app.on('ready', function(){
     ipcMain.on('user_signin',function(e, username){
         currentUser = username;
         firebase.auth().signInWithEmailAndPassword(currentUser + "@cs451project.com","password").then(function(){
-            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true})); 
-            win.setTitle('Dashboard - ' + currentUser);     
+            win.loadURL(url.format({ pathname: path.join(__dirname, 'views/index.html'), protocol: 'file:',slashes: true}));
+            win.setTitle('Dashboard - ' + currentUser);
         }).catch(function(error){
             if(error!=null){
                 console.log(error.message);
@@ -104,6 +107,16 @@ function initFirebase(){
         var trimmedName = username.substring(0,username.indexOf('@'));
         data[trimmedName] = {'image': image,'username':username};
     });
+
+    // reports
+     firebaseRef = firebase.database().ref("Reports");
+
+     firebaseRef.on("child_added", snap => {
+         var left = snap.child("left").val();
+         var right = snap.child("right").val();
+         var reportName = snap.child("reportName").val();
+         reports[reportName] = {'reportName': reportName, 'left': left, 'right': right};
+     });
 }
 
 
