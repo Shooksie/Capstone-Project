@@ -1,7 +1,25 @@
 body{
-    background-color: lightgrey;
+    background-color: rgb(172, 224, 238);
 }
 
 form{
     display: inline;
 }
+
+.container{
+    text-align: center;
+}
+
+.jumbotron{
+    background-color: rgb(241, 233, 233);
+}
+
+.btn-warning{
+    background-color: rgb(3, 69, 145);
+    border-color: rgb(3, 69, 145);
+}
+
+.btn-warning:hover{
+    background: #DA4B27;
+}
+
